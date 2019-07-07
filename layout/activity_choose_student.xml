@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ChooseStudentActivity">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="47dp">
+
+        <EditText
+            android:id="@+id/txtNumStudent"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center_horizontal|center_vertical"
+            android:inputType="textPersonName"
+            android:text="1" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="155dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Seleted"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/btnMessageSeleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/sms24" />
+
+        <ImageButton
+            android:id="@+id/btnSelectAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/doubletick24" />
+
+        <ImageButton
+            android:id="@+id/btnDelSeleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/trash24" />
+
+    </TableRow>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+</LinearLayout>
