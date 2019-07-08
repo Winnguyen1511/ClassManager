@@ -21,12 +21,14 @@
             android:id="@+id/btnAddStudent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="controlAddStudent"
             app:srcCompat="@drawable/plus24" />
 
         <ImageButton
             android:id="@+id/btnChooseStudent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="controlCheckStudent"
             app:srcCompat="@drawable/tick24" />
     </TableRow>
 

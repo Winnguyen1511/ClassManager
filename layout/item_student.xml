@@ -11,10 +11,10 @@
 
         <TextView
             android:id="@+id/txtStudent"
-            android:layout_width="266dp"
+            android:layout_width="221dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:hint="name"
+            android:hint="name\nphone"
+            android:text="name"
             android:textSize="18sp" />
 
         <ImageButton
@@ -28,6 +28,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/sms24" />
+
+        <ImageButton
+            android:id="@+id/btnDeleteStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/trash24" />
 
     </TableRow>
 

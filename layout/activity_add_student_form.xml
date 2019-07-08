@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddStudentForm">
+
+    <EditText
+        android:id="@+id/txtAddNameStudent"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Name"
+
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txtAddPhoneStudent"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Phone"
+        android:inputType="textPersonName" />
+
+    <TableRow
+        android:layout_width="300dp"
+        android:layout_height="66dp">
+
+        <Button
+            android:id="@+id/btnOkAddStudent"
+            android:layout_width="152dp"
+            android:layout_height="wrap_content"
+            android:text="@android:string/ok" />
+
+        <Button
+            android:id="@+id/btnNoAddStudent"
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            android:text="@android:string/cancel" />
+    </TableRow>
+</LinearLayout>
