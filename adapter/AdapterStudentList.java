@@ -3,6 +3,7 @@ package com.example.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,13 +50,13 @@ public class AdapterStudentList extends ArrayAdapter<Student>
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Call(stu.getPhone());
             }
         });
         btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                SendMessage(stu.getPhone());
             }
         });
         btnDeleteStudent.setOnClickListener(new View.OnClickListener() {
@@ -72,5 +73,19 @@ public class AdapterStudentList extends ArrayAdapter<Student>
 
         return row;
 
+    }
+
+    private void SendMessage(String phone) {
+        Uri uri = Uri.parse("tel:"+phone);
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(uri);
+        this.context.startActivity(intent);
+    }
+
+    private void Call(String phone) {
+        Uri uri = Uri.parse("tel:"+phone);
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(uri);
+        this.context.startActivity(intent);
     }
 }
