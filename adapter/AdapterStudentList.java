@@ -34,6 +34,12 @@ public class AdapterStudentList extends ArrayAdapter<Student>
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = this.context.getLayoutInflater();
         View row = inflater.inflate(this.resource, null);
+
+        //******************************************************************************************
+        //
+        //! Add 3 buttons control here
+        //
+        //******************************************************************************************
         TextView txtStudent = row.findViewById(R.id.txtStudent);
         ImageButton btnCall = row.findViewById(R.id.btnCall);
         ImageButton btnMessage = row.findViewById(R.id.btnMessage);
@@ -77,7 +83,9 @@ public class AdapterStudentList extends ArrayAdapter<Student>
 
     private void SendMessage(String phone) {
         Uri uri = Uri.parse("tel:"+phone);
+//        Uri uri = Uri.parse("tel:");
         Intent intent = new Intent(Intent.ACTION_SENDTO);
+//        Intent intent = new Intent(Intent.)
         intent.setData(uri);
         this.context.startActivity(intent);
     }

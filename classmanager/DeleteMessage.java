@@ -37,6 +37,10 @@ public class DeleteMessage extends AppCompatActivity implements View.OnClickList
             final String stuName = intent.getStringExtra(Identification.DELETE_STUDENT);
             txtDeleteMessage.setText("Do you want to delete student \"" + stuName + "\" ?");
         }
+        else if(type.equals(Identification.DELETE_SELECTED_STUDENT_TYPE))
+        {
+            txtDeleteMessage.setText("Do you want to delete these student ?");
+        }
 
     }
 

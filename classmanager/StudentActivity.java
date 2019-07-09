@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -36,14 +37,25 @@ public class StudentActivity extends AppCompatActivity {
         Toast.makeText(StudentActivity.this, "Editing "+className, Toast.LENGTH_SHORT).show();
         addControls();
         loadStudentList(className);
+        //loadStudentListSQL(className);
         adapterStudentList = new AdapterStudentList(StudentActivity.this, R.layout.item_student, dataList);
         lvStudent.setAdapter(adapterStudentList);
-        //loadStudentListSQL(className);
-    }
 
+    }
+//****************************************************************************************************************
+    //
+    //! ON ACTIVITY RESULT
+    //
+    //************************************************************************************************************
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //******************************************************************************************************
+        //
+        //! Listen to Delete 1 student action
+        //
+        //******************************************************************************************************
         if(requestCode == Identification.DELETE_STUDENT_ASK && resultCode ==Identification.DELETE_FEEDBACK)
         {
             if(data.getBooleanExtra(Identification.DELETE_CHOICE,false) == true){
@@ -53,6 +65,12 @@ public class StudentActivity extends AppCompatActivity {
 //                updateStudentListSQL();
             }
         }
+
+        //******************************************************************************************************
+        //
+        //! Listen to Add 1 student action after open a add student form.
+        //
+        //******************************************************************************************************
         if(requestCode == Identification.ADD_STUDENT_ASK && resultCode ==Identification.ADD_STUDENT_FEEDBACK)
         {
             if(data.getBooleanExtra(Identification.ADD_STUDENT_CHOICE,false) == true)
@@ -62,8 +80,58 @@ public class StudentActivity extends AppCompatActivity {
                 adapterStudentList.notifyDataSetChanged();
             }
         }
-    }
 
+        //******************************************************************************************************************
+        //
+        //! Listen to delete selected student
+        //
+        //******************************************************************************************************************
+        if(requestCode == Identification.CHOOSE_STUDENT_ASK && resultCode == Identification.CHOOSE_STUDENT_DELETE_FEEDBACK)
+        {
+                int []buffer = data.getIntArrayExtra(Identification.CHOOSE_STUDENT_DELETE);
+                if (buffer.length > 0)
+                {
+                    for(int i = buffer.length-1; i >= 0; i--)
+                    {
+                        dataList.remove(buffer[i]);
+                    }
+                }
+                adapterStudentList.notifyDataSetChanged();
+//                updateStudentListSQL();
+        }
+        if(requestCode == Identification.CHOOSE_STUDENT_ASK && resultCode == Identification.CHOOSE_STUDENT_DELETE_ALL_FEEDBACK)
+        {
+                dataList.clear();
+                adapterStudentList.notifyDataSetChanged();
+//                updateStudentListSQL();
+        }
+
+
+        //*********************************************************************************************************************
+        //
+        //! Listen to message selected student
+        //! Note: Only message when size of buffer >0
+        // Mean that only when user choose a number to message, else no operation will occur
+        //
+        //*********************************************************************************************************************
+        if(requestCode == Identification.CHOOSE_STUDENT_ASK && resultCode == Identification.CHOOSE_STUDENT_MESSAGE_FEEDBACK)
+        {
+            int []buffer = data.getIntArrayExtra(Identification.CHOOSE_STUDENT_MESSAGE);
+            if(buffer.length > 0) {
+                String s = dataList.get(buffer[0]).getPhone();
+                for (int i = 1; i < buffer.length; i++) {
+                    s += ";" + dataList.get(buffer[i]).getPhone();
+                }
+                Uri uri = Uri.parse("tel:" + s);
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        }
+
+
+    }
+//******************************************************************************************************************************
     private void updateStudentListSQL() {
 
     }
@@ -127,6 +195,8 @@ public class StudentActivity extends AppCompatActivity {
     }
 
     public void controlCheckStudent(View view) {
-
+        Intent intent = new Intent(StudentActivity.this, ChooseStudentActivity.class);
+        intent.putExtra(Identification.CHOOSE_STUDENT_CLASSNAME, className);
+        startActivityForResult(intent, Identification.CHOOSE_STUDENT_ASK);
     }
 }

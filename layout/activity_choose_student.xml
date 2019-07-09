@@ -11,14 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="47dp">
 
-        <EditText
+        <TextView
             android:id="@+id/txtNumStudent"
             android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="center_horizontal|center_vertical"
             android:inputType="textPersonName"
-            android:text="1" />
+            android:text="0"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView8"
@@ -48,14 +49,10 @@
 
     </TableRow>
 
-    <ScrollView
+    <ListView
+        android:id="@+id/lvChooseStudent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
 
 </LinearLayout>
