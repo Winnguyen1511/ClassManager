@@ -4,7 +4,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -14,9 +17,17 @@ import android.widget.Toast;
 
 import com.example.adapter.AdapterClassList;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class ClassListActivity extends AppCompatActivity {
+
+    private static final String DB_PATH_SUFFIX ="/databases/";
+    public static SQLiteDatabase database = null;
+
     ImageButton btnAddClass;
     EditText    txtAddClass;
 
@@ -24,7 +35,7 @@ public class ClassListActivity extends AppCompatActivity {
     AdapterClassList adapterClassList;
     ArrayList<String> classList;
 
-    String username;
+    public static String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +45,73 @@ public class ClassListActivity extends AppCompatActivity {
         Toast.makeText(ClassListActivity.this, "Logged in "+username, Toast.LENGTH_SHORT).show();
         addControls();
         classList = new ArrayList<>();
-        loadClassList();
-//        loadClassListSQL();
+//        loadClassList();
+        loadDatabaseSQLiteFromAsset();
+        database = openOrCreateDatabase(username+".db", MODE_PRIVATE, null);
+        loadDatabaseTableName();
         adapterClassList = new AdapterClassList(ClassListActivity.this, R.layout.item_class, classList);
         lvClassList.setAdapter(adapterClassList);
-
     }
 
+    private void loadDatabaseTableName() {
+        Cursor cursor = database.rawQuery("select name from sqlite_master where type='table'", null);
+        while(cursor.moveToNext())
+        {
+            String tableName = cursor.getString(0);
+            if(tableName.equals("android_metadata"))
+                continue;
+            else
+                classList.add(tableName);
+        }
+        cursor.close();
+    }
+
+    private void loadDatabaseSQLiteFromAsset() {
+        File dbFile = getDatabasePath(username+".db");
+        if(!dbFile.exists())
+        {
+            try{
+                CopyDataBaseFromAsset();
+                Toast.makeText(this, "Successful copy", Toast.LENGTH_SHORT).show();
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void CopyDataBaseFromAsset() {
+        try{
+
+            InputStream accountInput = getAssets().open(username+".db");
+            String outFileName = getStoragePath();
+            File f = new File(getApplicationInfo().dataDir+DB_PATH_SUFFIX);
+            if(!f.exists())
+            {
+                f.mkdir();
+            }
+            OutputStream accountOutput = new FileOutputStream(outFileName);
+            byte[] buffer = new byte[1024];
+            int length;
+            while((length = accountInput.read(buffer))>0)
+            {
+                accountOutput.write(buffer, 0, length);
+            }
+            accountOutput.flush();
+            accountOutput.close();
+            accountInput.close();
+        }
+        catch (Exception e)
+        {
+            Log.e("Error copying", e.toString());
+        }
+    }
+
+    private String getStoragePath()
+    {
+        return getApplicationInfo().dataDir + DB_PATH_SUFFIX + username+".db";
+    }
 
     //**********************************************************************************************
     //

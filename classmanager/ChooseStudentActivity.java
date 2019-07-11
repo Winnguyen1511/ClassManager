@@ -43,8 +43,9 @@ public class ChooseStudentActivity extends AppCompatActivity {
         intent = getIntent();
         className = intent.getStringExtra(Identification.CHOOSE_STUDENT_CLASSNAME);
         addControls();
-        loadData(className);
-//        loadDataSQL(className);
+//        loadData(className);
+        dataList = (ArrayList<Student>) intent.getSerializableExtra(Identification.CHOOSE_STUDENT_LIST);
+        loadDataSQL(className);
         lvChooseStudent.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         adapter = new ArrayAdapter<>(this,R.layout.item_choose_student,R.id.txtChooseStudent,stuList);
         lvChooseStudent.setAdapter(adapter);
@@ -175,7 +176,10 @@ public class ChooseStudentActivity extends AppCompatActivity {
     }
 
     private void loadDataSQL(String s) {
-
+        for(Student stu: dataList)
+        {
+            stuList.add(stu.getName()+"\n"+stu.getPhone());
+        }
     }
 
     private void loadData(String s) {

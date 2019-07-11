@@ -36,4 +36,5 @@ public class Identification {
     public static final String CHOOSE_STUDENT_MESSAGE = "CHOOSE_STUDENT_MESSAGE_STRING";
     public static final String DELETE_SELECTED_STUDENT_TYPE ="CHOOSE_STUDENT_DELETE_TYPE_STRING" ;
 
+    public static final String CHOOSE_STUDENT_LIST = "CHOOSE_STUDENT_LIST_STRING" ;
 }

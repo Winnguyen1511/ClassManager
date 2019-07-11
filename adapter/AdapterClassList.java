@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.classmanager.ClassListActivity;
 import com.example.classmanager.DeleteMessage;
 import com.example.classmanager.Identification;
 import com.example.classmanager.R;
@@ -58,6 +59,7 @@ public class AdapterClassList extends ArrayAdapter<String>
                 Toast.makeText(context, "Opening class "+className, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, StudentActivity.class);
                 intent.putExtra(Identification.EDIT_CLASSNAME, className);
+                intent.putExtra(Identification.USERNAME, ClassListActivity.username);
 //                context.startActivityForResult();
                 context.startActivity(intent);
             }
@@ -70,6 +72,7 @@ public class AdapterClassList extends ArrayAdapter<String>
                 intent.putExtra(Identification.MESSAGE_TYPE,Identification.DELETE_CLASS_TYPE );
                 intent.putExtra(Identification.DELETE_POSITION, position);//Send position of selected item, for deletion in ClassListActivity
                 intent.putExtra(Identification.DELETE_CLASSNAME, className);//Send className for display on Delete Message alert.
+
                 context.startActivityForResult(intent, Identification.DELETE_CLASS_ASK);
             }
         });
