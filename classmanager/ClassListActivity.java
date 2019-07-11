@@ -52,7 +52,13 @@ public class ClassListActivity extends AppCompatActivity {
         adapterClassList = new AdapterClassList(ClassListActivity.this, R.layout.item_class, classList);
         lvClassList.setAdapter(adapterClassList);
     }
-
+//**************************************************************************************************
+    //
+    //! 3 functions to load the database
+    //! Call these 3 functions, change the database name for specific use
+    //! Note: Dont change any thing
+    //
+    //**********************************************************************************************
     private void loadDatabaseTableName() {
         Cursor cursor = database.rawQuery("select name from sqlite_master where type='table'", null);
         while(cursor.moveToNext())
@@ -112,6 +118,9 @@ public class ClassListActivity extends AppCompatActivity {
     {
         return getApplicationInfo().dataDir + DB_PATH_SUFFIX + username+".db";
     }
+//**************************************************************************************************
+
+
 
     //**********************************************************************************************
     //
@@ -129,10 +138,12 @@ public class ClassListActivity extends AppCompatActivity {
             //If user choosed yes to delete, this code will run
             if(data.getBooleanExtra(Identification.DELETE_CHOICE,false) == true){
                 int position = data.getIntExtra(Identification.DELETE_POSITION, 0);//Receive the position that is sent by the Adapter when we chooose to delete
+                String tmpClassName = classList.get(position);
+                database.execSQL("drop table if exists "+tmpClassName);
                 classList.remove(position);
+
                 adapterClassList.notifyDataSetChanged();
             }
-
         }
     }
 
@@ -156,7 +167,9 @@ public class ClassListActivity extends AppCompatActivity {
     }
 
     public void controlAddClass(View view) {
-        classList.add(txtAddClass.getText().toString());
+        String tmpClassName = txtAddClass.getText().toString();
+        classList.add(tmpClassName);
+        database.execSQL("create table if not exists "+tmpClassName+" (Name TEXT, Phone TEXT)");
         adapterClassList.notifyDataSetChanged();
     }
 }
